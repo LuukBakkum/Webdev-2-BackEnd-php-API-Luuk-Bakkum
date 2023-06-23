@@ -19,21 +19,15 @@ class UserController extends Controller
     public function login() {
 
         try {
-            // read user data from request body
             $postedUser = $this->createObjectFromPostedJson("Models\\User");
-    
-            // get user from db
             $user = $this->service->checkUsernamePassword($postedUser->username, $postedUser->password);
     
-            // if the method returned false, the username and/or password were incorrect
             if(!$user) {
                 $this->respondWithError(401, "Invalid login");
                 return;
             }
     
-            // generate jwt
             $tokenResponse = $this->generateJwt($user);
-    
             $this->respond($tokenResponse);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
@@ -43,21 +37,16 @@ class UserController extends Controller
     public function register() {
 
         try {
-            // read user data from request body
             $postedUser = $this->createObjectFromPostedJson("Models\\User");
     
-            // check if the username is already taken
             $user = $this->service->checkUsernamePassword($postedUser->username, $postedUser->password);
-    
             if($user) {
                 $this->respondWithError(400, "Username already taken");
                 return;
             }
     
-            // register user
-            $this->service->registerUser($postedUser->username, $postedUser->password, $postedUser->email);
-    
-            $this->respond(array("message" => "User registered"));
+            $registeredUser = $this->service->registerUser($postedUser->username, $postedUser->password, $postedUser->email);
+            $this->respond($registeredUser);
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
         }
@@ -67,17 +56,13 @@ class UserController extends Controller
         try {
             $secret_key = "YOUR_SECRET_KEY";
     
-            $issuer = "THE_ISSUER"; // this can be the domain/servername that issues the token
-            $audience = "THE_AUDIENCE"; // this can be the domain/servername that checks the token
+            $issuer = "THE_ISSUER";
+            $audience = "THE_AUDIENCE";
     
-            $issuedAt = time(); // issued at
-            $notbefore = $issuedAt; //not valid before 
-            $expire = $issuedAt + 6000; // expiration time is set at +600 seconds (10 minutes)
+            $issuedAt = time();
+            $notbefore = $issuedAt;
+            $expire = $issuedAt + 6000;
     
-            // JWT expiration times should be kept short (10-30 minutes)
-            // A refresh token system should be implemented if we want clients to stay logged in for longer periods
-    
-            // note how these claims are 3 characters long to keep the JWT as small as possible
             $payload = array(
                 "iss" => $issuer,
                 "aud" => $audience,
@@ -93,7 +78,7 @@ class UserController extends Controller
     
             $jwt = JWT::encode($payload, $secret_key, 'HS256');
     
-            return 
+            return
                 array(
                     "message" => "Successful login.",
                     "jwt" => $jwt,
@@ -111,7 +96,6 @@ class UserController extends Controller
     public function getAll()
     {
         try {
-            // Checks for a valid jwt, returns 401 if none is found
             $token = $this->checkForJwt();
             if (!$token)
                 return;
@@ -137,14 +121,12 @@ class UserController extends Controller
     public function getOne($id)
     {
         try {
-            // Checks for a valid jwt, returns 401 if none is found
             $token = $this->checkForJwt();
             if (!$token)
                 return;
     
             $user = $this->service->getOne($id);
     
-            // Check if the user exists
             if (empty($user)) {
                 $this->respondWithError(404, "User not found");
                 return;
@@ -159,21 +141,17 @@ class UserController extends Controller
     public function create()
     {
         try {
-            // Checks for a valid jwt, returns 401 if none is found
             $token = $this->checkForJwt();
             if (!$token)
                 return;
-    
-            // Check if the user is an admin
+
             if (!$token->data->admin) {
                 $this->respondWithError(401, "Unauthorized");
                 return;
             }
     
-            // read user data from request body
             $postedUser = $this->createObjectFromPostedJson("Models\\User");
     
-            // create user
             $user = $this->service->create($postedUser);
     
             $this->respond($user);
@@ -185,27 +163,22 @@ class UserController extends Controller
     public function update($id)
     {
         try {
-            // Checks for a valid jwt, returns 401 if none is found
             $token = $this->checkForJwt();
             if (!$token)
                 return;
     
-            // Check if the user is an admin
             if (!$token->data->admin) {
                 $this->respondWithError(401, "Unauthorized");
                 return;
             }
     
-            // read user data from request body
             $postedUser = $this->createObjectFromPostedJson("Models\\User");
     
-            // Check if the user exists
             if (empty($this->service->getOne($id))) {
                 $this->respondWithError(404, "User not found");
                 return;
             }
     
-            // update user
             $user = $this->service->update($postedUser, $id);
     
             $this->respond($user);
@@ -217,24 +190,20 @@ class UserController extends Controller
     public function delete($id)
     {
         try {
-            // Checks for a valid jwt, returns 401 if none is found
             $token = $this->checkForJwt();
             if (!$token)
                 return;
     
-            // Check if the user is an admin
             if (!$token->data->admin) {
                 $this->respondWithError(401, "Unauthorized");
                 return;
             }
     
-            // Check if the user exists
             if (empty($this->service->getOne($id))) {
                 $this->respondWithError(404, "User not found");
                 return;
             }
     
-            // delete user
             $this->service->delete($id);
     
             $this->respond(array("message" => "User deleted"));

@@ -50,15 +50,16 @@ class UserRepository extends Repository
             $stmt = $this->connection->prepare("INSERT INTO user (username, password, email, admin) VALUES (:username, :password, :email, :admin)");
 
             $password = $this->hashPassword($password);
+            $admin = 0;
             $stmt->bindParam(':username', $userName);
             $stmt->bindParam(':password', $password);
             $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':admin', 0);
+            $stmt->bindParam(':admin', $admin);
             $stmt->execute();
 
             $id = $this->connection->lastInsertId();
 
-            return $user = $this->getOne($id);
+            return $this->getOne($id);
 
         } catch (PDOException $e) {
             echo $e;
