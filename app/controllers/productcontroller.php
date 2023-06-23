@@ -36,7 +36,6 @@ class ProductController extends Controller
     {
         $product = $this->service->getOne($id);
 
-        // we might need some kind of error checking that returns a 404 if the product is not found in the DB
         if (!$product) {
             $this->respondWithError(404, "Product not found");
             return;
