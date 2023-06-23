@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Gegenereerd op: 04 jun 2023 om 18:39
+-- Gegenereerd op: 23 jun 2023 om 20:59
 -- Serverversie: 10.9.4-MariaDB-1:10.9.4+maria~ubu2204
 -- PHP-versie: 8.0.25
 
@@ -22,7 +22,6 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-
 
 --
 -- Tabelstructuur voor tabel `library`
@@ -45,13 +44,10 @@ INSERT INTO `library` (`id`, `user_id`, `movie_id`, `serie_id`, `price`) VALUES
 (22, 3, NULL, 1399, '50'),
 (23, 3, 502356, NULL, '12'),
 (24, 3, 76600, NULL, '12'),
-(25, 3, 106646, NULL, '100'),
-(26, 3, 22, NULL, '100'),
-(27, 3, NULL, 60625, '100'),
-(28, 3, NULL, 76479, '20'),
-(35, 3, 271110, NULL, '20'),
-(36, 3, NULL, 60059, '30'),
-(37, 3, NULL, 246, '100');
+(40, 6, 385687, NULL, '10'),
+(41, 6, 271110, NULL, '20'),
+(42, 6, NULL, 1399, '50'),
+(48, 2, NULL, 246, '23');
 
 -- --------------------------------------------------------
 
@@ -142,8 +138,11 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `admin`) VALUES
 (1, 'username', '$2y$10$DQlV0u9mFmtOWsOdxXX9H.4kgzEB3E8o97s.S.Pdy4klUAdBvtVh.', 'username@password.com', 0),
-(2, 'hallo', '$2y$10$h5s6Et1CuMryURLm/VoF0.PsHLEmRwhhDWXmx7xo11WJbA4oRPglG', 'toppie@woppie.nl', 0),
-(3, 'thomas', '$2y$10$lT6uhVUw62I/NeqN7zQhoOsVbwKhRGH4N1gNeZCH2ONwE/gmMh7ma', 'hallo@daar.nl', 1);
+(2, 'Alice', '$2y$10$XidVOMWBjXBowq92UtsuAO3BTUkIMH./nPzYumgHds1MV50EtN75m', 'toppie@woppie.nl', 0),
+(3, 'thomas', '$2y$10$PGsVh2uGW0peEYfXqqMew.6RMgNtv2Tlk9c6jE5vE.L6WupxZSZ7C', 'hallo@daar.nl', 1),
+(6, 'tester', '$2y$10$hRczgyFKTn/z7STonRaj0uoWgfmLv6De7YwBFt9rJ5rrlw29po6Hm', 'test@email.com', 1),
+(8, 'adminUser', '$2y$10$V8CCOYAl3jWgyzRha5fTE./M.XVRFlc535Ee7ZScgvwCELHjlTYMu', 'adminUser@movieknight.com', 1),
+(9, 'customer', '$2y$10$PSJrCGElRn.WAUbIzFie0uoux0iMW6zu3//k4cHVp0u7LrHv3shmW', 'customer@movieknight.com', 1);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -184,7 +183,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT voor een tabel `library`
 --
 ALTER TABLE `library`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT voor een tabel `movie`
@@ -202,13 +201,7 @@ ALTER TABLE `serie`
 -- AUTO_INCREMENT voor een tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- Beperkingen voor geëxporteerde tabellen
---
-
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
