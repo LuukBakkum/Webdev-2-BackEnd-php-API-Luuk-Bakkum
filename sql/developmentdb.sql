@@ -142,7 +142,7 @@ INSERT INTO `user` (`id`, `username`, `password`, `email`, `admin`) VALUES
 (3, 'thomas', '$2y$10$PGsVh2uGW0peEYfXqqMew.6RMgNtv2Tlk9c6jE5vE.L6WupxZSZ7C', 'hallo@daar.nl', 1),
 (6, 'tester', '$2y$10$hRczgyFKTn/z7STonRaj0uoWgfmLv6De7YwBFt9rJ5rrlw29po6Hm', 'test@email.com', 1),
 (8, 'adminUser', '$2y$10$V8CCOYAl3jWgyzRha5fTE./M.XVRFlc535Ee7ZScgvwCELHjlTYMu', 'adminUser@movieknight.com', 1),
-(9, 'customer', '$2y$10$PSJrCGElRn.WAUbIzFie0uoux0iMW6zu3//k4cHVp0u7LrHv3shmW', 'customer@movieknight.com', 1);
+(9, 'customer', '$2y$10$PSJrCGElRn.WAUbIzFie0uoux0iMW6zu3//k4cHVp0u7LrHv3shmW', 'customer@movieknight.com', 0);
 
 --
 -- Indexen voor geëxporteerde tabellen
