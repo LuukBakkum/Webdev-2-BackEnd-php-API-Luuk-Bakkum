@@ -12,7 +12,6 @@ class MovieRepository extends Repository
     function getAll($offset = NULL, $limit = NULL)
     {
         try {
-            // waarschijnlijk nodig: title, description, image, movie_id
             $query = "SELECT id, title, price, description, image, movie_id FROM movie";
             if (isset($limit) && isset($offset)) {
                 $query .= " LIMIT :limit OFFSET :offset ";

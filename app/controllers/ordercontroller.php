@@ -18,7 +18,6 @@ class OrderController extends Controller
     public function getAll()
     {
         try {
-            // Checks for a valid jwt, returns 401 if none is found
             $token = $this->checkForJwt();
             if (!$token)
                 return;

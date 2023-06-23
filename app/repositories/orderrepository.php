@@ -56,7 +56,6 @@ class OrderRepository extends Repository
     public function getAllByUserId($userId)
     {
         try {
-            // Assuming you have a DB connection called $this->db and a table called orders
             $stmt = $this->connection->prepare("SELECT id, user_id, movie_id, serie_id, price FROM `library` WHERE user_id = :user_id");
             $stmt->bindParam(':user_id', $userId);
             $stmt->execute();
@@ -129,8 +128,6 @@ class OrderRepository extends Repository
             LEFT JOIN `serie` as s on l.serie_id = s.serie_id
             WHERE l.user_id = :id
             ";
-            // u.id as user_id, u.username, u.email,
-            // INNER JOIN `user` as u on l.user_id = u.id
             
             $stmt = $this->connection->prepare($query);
             $stmt->bindParam(':id', $id);

@@ -9,7 +9,6 @@ class MovieController extends Controller
 {
     private $service;
 
-    // initialize services
     function __construct()
     {
         $this->service = new MovieService();
@@ -39,14 +38,12 @@ class MovieController extends Controller
     public function getAllById($movie_id)
     {
         try {
-            // Checks for a valid jwt, returns 401 if none is found
             $token = $this->checkForJwt();
             if (!$token)
                 return;
     
             $movies = $this->service->getAllById($movie_id);
     
-            // Check if the movies exist
             if (empty($movies)) {
                 $this->respondWithError(404, "Movies not found");
                 return;
@@ -63,7 +60,6 @@ class MovieController extends Controller
         try {
             $movie = $this->service->getOne($id);
     
-            // we might need some kind of error checking that returns a 404 if the movie is not found in the DB
             if (!$movie) {
                 $this->respondWithError(404, "Movie not found");
                 return;
