@@ -60,6 +60,5 @@ $router->post('/orders', 'OrderController@create');
 $router->put('/orders/(\d+)', 'OrderController@update');
 $router->delete('/orders/(\d+)', 'OrderController@delete');
 
-
 // Run it!
 $router->run();
