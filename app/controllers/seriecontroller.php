@@ -9,7 +9,6 @@ class SerieController extends Controller
 {
     private $service;
 
-    // initialize services
     function __construct()
     {
         $this->service = new SerieService();
@@ -39,14 +38,12 @@ class SerieController extends Controller
     public function getAllById($serie_id)
     {
         try {
-            // Checks for a valid jwt, returns 401 if none is found
             $token = $this->checkForJwt();
             if (!$token)
                 return;
                 
             $series = $this->service->getAllById($serie_id);
     
-            // Check if the series exist
             if (empty($series)) {
                 $this->respondWithError(404, "Series not found");
                 return;
@@ -63,7 +60,6 @@ class SerieController extends Controller
         try {
             $serie = $this->service->getOne($id);
     
-            // we might need some kind of error checking that returns a 404 if the serie is not found in the DB
             if (!$serie) {
                 $this->respondWithError(404, "Serie not found");
                 return;

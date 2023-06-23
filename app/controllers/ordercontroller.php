@@ -9,7 +9,6 @@ class OrderController extends Controller
 {
     private $service;
 
-    // initialize services
     function __construct()
     {
         $this->service = new OrderService();
@@ -43,16 +42,12 @@ class OrderController extends Controller
     public function getAllByUserId()
     {
         try {
-            // Checks for a valid jwt, returns 401 if none is found
             $token = $this->checkForJwt();
             if (!$token)
                 return;
-    
-            // Assuming the service has a method getAllByUserId that fetches orders based on user_id
-            // $orders = $this->service->getAllByUserId($userId);
+
             $orders = $this->service->getUserLibrary($token->data->id);
     
-            // Check if the orders exist
             if (empty($orders)) {
                 $this->respondWithError(404, "Orders not found");
                 return;
@@ -69,7 +64,6 @@ class OrderController extends Controller
         try {
             $orders = $this->service->getOne($id);
     
-            // we might need some kind of error checking that returns a 404 if the orders is not found in the DB
             if (!$orders) {
                 $this->respondWithError(404, "Orders not found");
                 return;
@@ -84,26 +78,21 @@ class OrderController extends Controller
     public function create()
     {
         try {
-            // Decode JWT and get user ID
             $jwtPayload = $this->checkForJwt();
             error_log('id= ' . $jwtPayload->data->id);
-            $userId = $jwtPayload->data->id; // Assuming the user ID is stored in a field called 'userId' in JWT
+            $userId = $jwtPayload->data->id;
 
             $orders = [];
 
-            // Get the posted JSON data and decode it into an array of objects
             $json = file_get_contents('php://input');
             $ordersData = json_decode($json);
 
-
             foreach ($ordersData as $orderData) {
-                // Create the Order object
                 $order = $this->createObjectFromData("Models\\Order", (array)$orderData);
 
                 if (isset($orderData->user_id)) {
                     $order->user_id = $orderData->user_id;
                 } else {
-                    // Set the user ID from JWT to the Order object
                     $order->user_id = $userId;
                 }
 
